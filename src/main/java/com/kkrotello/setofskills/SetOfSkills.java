@@ -1,8 +1,8 @@
 package com.kkrotello.setofskills;
 
 //import com.kkrotello.setofskills.Item.ModItems;
-//import com.kkrotello.setofskills.entity.ModEntities;
-//import com.kkrotello.setofskills.entity.client.SlashProjectileRenderer;
+import com.kkrotello.setofskills.entity.ModEntities;
+import com.kkrotello.setofskills.entity.client.SlashProjectileRenderer;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -82,7 +82,7 @@ public class SetOfSkills
         modEventBus.addListener(this::commonSetup);
 
 //        ModItems.register(modEventBus);
-//        ModEntities.register(modEventBus);
+        ModEntities.register(modEventBus);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
@@ -151,7 +151,7 @@ public class SetOfSkills
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             // Some client setup code
-//            EntityRenderers.register(ModEntities.SLASH_PROJECTILE.get(), SlashProjectileRenderer::new);
+            EntityRenderers.register(ModEntities.SLASH_PROJECTILE.get(), SlashProjectileRenderer::new);
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
