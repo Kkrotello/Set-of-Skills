@@ -43,10 +43,21 @@ public class SlashProjectileEntity extends AbstractHurtingProjectile {
     public static int ticksdespawn = 60;
 
     @Override
+    protected boolean shouldBurn() {
+        return false;
+    }
+
+    @Override
+    protected float getInertia() {
+        return super.getInertia();
+    }
+
+    @Override
     protected void onHitEntity(EntityHitResult pResult) {
         if (!this.level().isClientSide){
             this.level().broadcastEntityEvent(this, ((byte) 3));
             Entity target = pResult.getEntity();
+            Entity shooter = this.getOwner();
             Level world = this.level();
             Vec3 look = this.getLookAngle();
             target.hurt(this.damageSources().generic(), 10);

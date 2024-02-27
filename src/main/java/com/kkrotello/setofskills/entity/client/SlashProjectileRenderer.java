@@ -16,7 +16,7 @@ public class SlashProjectileRenderer extends EntityRenderer<SlashProjectileEntit
     private SlashProjectileModel model;
     public SlashProjectileRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
-        this.model = new SlashProjectileModel<>(pContext.bakeLayer(ModModelLayers.SLASH_PROJECTIL_LAYER));
+        this.model = new SlashProjectileModel(pContext.bakeLayer(ModModelLayers.SLASH_PROJECTIL_LAYER));
     }
 
     @Override
