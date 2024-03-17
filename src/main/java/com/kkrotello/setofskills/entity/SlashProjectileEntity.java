@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -14,9 +15,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,30 +29,49 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class SlashProjectileEntity extends AbstractHurtingProjectile {
-    public SlashProjectileEntity(EntityType<? extends AbstractHurtingProjectile> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-    }
-    public SlashProjectileEntity(EntityType<? extends AbstractHurtingProjectile> pEntityType, LivingEntity pShooter, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
-        super(pEntityType, pShooter, pOffsetX, pOffsetY, pOffsetZ, pLevel);
-    }
-    public SlashProjectileEntity(EntityType<? extends AbstractHurtingProjectile> pEntityType, double pX, double pY, double pZ, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
-        super(pEntityType, pX, pY, pZ, pOffsetX, pOffsetY, pOffsetZ, pLevel);
-    }
-    public SlashProjectileEntity(Level pLevel) {
-        super(ModEntities.SLASH_PROJECTILE.get(), pLevel);
-    }
+public class SlashProjectileEntity extends AbstractArrow {
+//    public SlashProjectileEntity(EntityType<? extends > pEntityType, Level pLevel) {
+//        super(pEntityType, pLevel);
+//    }
+//    public SlashProjectileEntity(EntityType<? extends AbstractHurtingProjectile> pEntityType, LivingEntity pShooter, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
+//        super(pEntityType, pShooter, pOffsetX, pOffsetY, pOffsetZ, pLevel);
+//    }
+//    public SlashProjectileEntity(EntityType<? extends AbstractHurtingProjectile> pEntityType, double pX, double pY, double pZ, double pOffsetX, double pOffsetY, double pOffsetZ, Level pLevel) {
+//        super(pEntityType, pX, pY, pZ, pOffsetX, pOffsetY, pOffsetZ, pLevel);
+//    }
+//    public SlashProjectileEntity(Level pLevel) {
+//        super(ModEntities.SLASH_PROJECTILE.get(), pLevel);
+//    }
 
     public static int ticksdespawn = 60;
 
-    @Override
-    protected boolean shouldBurn() {
-        return false;
+    public SlashProjectileEntity(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
     }
 
-    @Override
-    protected float getInertia() {
-        return super.getInertia();
+    public SlashProjectileEntity(Level pLevel){
+        super(ModEntities.SLASH_PROJECTILE.get(), pLevel);
+    }
+
+//    @Override
+//    protected boolean shouldBurn() {
+//        return false;
+//    }
+//
+//    @Override
+//    protected float getInertia() {
+//        return super.getInertia();
+//    }
+
+
+    public void specialshoot(double pX, double pY, double pZ, float pVelocity, float pInaccuracy) {
+        Vec3 vec3 = (new Vec3(pX, pY, pZ)).normalize().add(this.random.triangle(0.0, 0.0172275 * (double)pInaccuracy), this.random.triangle(0.0, 0.0172275 * (double)pInaccuracy), this.random.triangle(0.0, 0.0172275 * (double)pInaccuracy)).scale((double)pVelocity);
+        this.setDeltaMovement(vec3);
+        double d0 = vec3.horizontalDistance();
+        this.setYRot(90f);
+        this.setXRot(90f);
+//        this.yRotO = this.getYRot();
+//        this.xRotO = this.getXRot();
     }
 
     @Override
@@ -58,10 +80,11 @@ public class SlashProjectileEntity extends AbstractHurtingProjectile {
             this.level().broadcastEntityEvent(this, ((byte) 3));
             Entity target = pResult.getEntity();
             Entity shooter = this.getOwner();
-            Level world = this.level();
             Vec3 look = this.getLookAngle();
-            target.hurt(this.damageSources().generic(), 10);
-            target.addDeltaMovement(new Vec3(look.x,1, look.z));
+            if(target != shooter){
+                target.hurt(this.damageSources().generic(), 10);
+                target.addDeltaMovement(new Vec3(look.x,1, look.z));
+            }
         }
         super.onHitEntity(pResult);
     }
@@ -81,7 +104,14 @@ public class SlashProjectileEntity extends AbstractHurtingProjectile {
     }
 
     @Override
+    protected ItemStack getPickupItem() {
+        return null;
+    }
+
+    @Override
     public void tick() {
-        super.tick();
+//        this.setXRot(90f);
+//        this.setYRot(90f);
+
     }
 }
