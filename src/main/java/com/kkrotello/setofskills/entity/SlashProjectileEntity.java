@@ -1,8 +1,12 @@
 package com.kkrotello.setofskills.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -90,6 +94,11 @@ public class SlashProjectileEntity extends AbstractArrow {
     }
 
     @Override
+    public double getBaseDamage() {
+        return super.getBaseDamage();
+    }
+
+    @Override
     protected void onHitBlock(BlockHitResult pResult) {
         if(!this.level().isClientSide){
             this.level().broadcastEntityEvent(this, ((byte) 3));
@@ -97,6 +106,25 @@ public class SlashProjectileEntity extends AbstractArrow {
             if (block.getBlock() == Blocks.OAK_LOG){
                 this.level().setBlock(blockPosition(), Blocks.AIR.defaultBlockState(), 3);
             }
+            BlockPos pos = pResult.getBlockPos();
+            Direction d = pResult.getDirection();
+
+            Vec3 Vec = this.getDeltaMovement();
+            double vx = Vec.x;
+            double vy = Vec.y;
+            double vz = Vec.z;
+
+            if(d.getStepX() != 0){
+                vx = vx * -1;
+            } else if (d.getStepY() != 0) {
+                vy = vy * -1;
+            } else if (d.getStepZ() != 0) {
+                vz = vz * -1;
+            }
+
+            Vec3 Bounce = new Vec3(vx, vy, vz);
+            this.setPos(pResult.getLocation());
+            this.setDeltaMovement(Bounce);
 
             this.discard();
         }
@@ -110,8 +138,15 @@ public class SlashProjectileEntity extends AbstractArrow {
 
     @Override
     public void tick() {
-//        this.setXRot(90f);
-//        this.setYRot(90f);
+        super.tick();
+        if (!this.getPersistentData().getBoolean("Grav")) {
+            this.getPersistentData().putBoolean("Grav", true);
+            this.setNoGravity(true);
+        }
+    }
 
+    @Override
+    protected SoundEvent getDefaultHitGroundSoundEvent() {
+        return SoundEvents.TRIDENT_HIT_GROUND;
     }
 }

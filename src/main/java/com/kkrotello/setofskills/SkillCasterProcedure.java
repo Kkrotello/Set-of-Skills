@@ -1,8 +1,6 @@
 package com.kkrotello.setofskills;
 
-import com.kkrotello.setofskills.skill.AirJump;
-import com.kkrotello.setofskills.skill.ArcSlash;
-import com.kkrotello.setofskills.skill.DropShotKick;
+import com.kkrotello.setofskills.skill.*;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -25,12 +23,18 @@ public class SkillCasterProcedure {
                 InteractionHand pHand = user.swingingArm;
 //                Item myitem = user.getItemInHand(pHand).getItem();
 //                user.displayClientMessage(Component.literal("You have: " + I18n.get(myitem.getDescriptionId())), true);
-                if ((user.getItemInHand(pHand)).getItem() == Items.IRON_BOOTS){
+                if ((user.getMainHandItem().getItem() == Items.IRON_BOOTS)){
                     user.displayClientMessage(Component.literal("shot"), true);
                     DropShotKick.execute(world, user);
-                } else if ((user.getItemInHand(pHand)).getItem() == Items.DIAMOND_SWORD) {
+                } else if ((user.getMainHandItem()).getItem() == Items.DIAMOND_SWORD) {
                     user.displayClientMessage(Component.literal("slash"), true);
                     ArcSlash.execute(world, user, x, y, z);
+                } else if ((user.getMainHandItem()).getItem() == Items.BOW) {
+                    user.displayClientMessage(Component.literal("slash"), true);
+                    Trickshot.execute(world, user);
+                } else if ((user.getMainHandItem()).getItem() == Items.LEAD) {
+//                    user.displayClientMessage(Component.literal("slash"), true);
+                    GrabNThrow.execute(world, user);
                 }
 
         }

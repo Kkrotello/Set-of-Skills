@@ -23,7 +23,7 @@ public class ArcSlash {
 //                Slash.shootFromRotation(shootFrom, shootFrom.getXRot(), shootFrom.getYRot(), 0.0f, 1.0f, 0.0f);
 //                Slash.shoot(shootFrom.getLookAngle().x, shootFrom.getLookAngle().y, shootFrom.getLookAngle().z, 1, 0);
                 Slash.shootFromRotation(user, user.getXRot(), user.getYRot(), 0.0F, 1f, 0.0F);
-                Slash.getPersistentData().putString("NoGravity", "1b");
+//                Slash.getPersistentData().putString("NoGravity", "1b");
                 projectileLevel.addFreshEntity(Slash);
             }
         }
