@@ -17,7 +17,7 @@ import net.minecraft.client.KeyMapping;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT})
 
 public class ModKeyMappings {
-    public static final KeyMapping CAST_KEY = new KeyMapping("key.set_of_skills.cast_key", GLFW.GLFW_KEY_C, "key.categories.set_of_skills") {
+    public static final KeyMapping CAST_KEY = new KeyMapping("key.setofskills.cast_key", GLFW.GLFW_KEY_C, "key.categories.set_of_skills") {
         private boolean isDownOld = false;
 
         @Override

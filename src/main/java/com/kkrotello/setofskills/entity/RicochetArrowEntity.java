@@ -11,10 +11,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Comparator;
 import java.util.Random;
 
 public class RicochetArrowEntity extends AbstractArrow {
@@ -31,9 +33,36 @@ public class RicochetArrowEntity extends AbstractArrow {
     @Override
     protected void onHitBlock(BlockHitResult pResult) {
         BlockPos pos = pResult.getBlockPos();
+        double x = pos.getX();
+        double y = pos.getY();
+        double z = pos.getZ();
         Direction d = pResult.getDirection();
-
+        Level world = this.level();
+        Entity target = null;
         Vec3 Vec = this.getDeltaMovement();
+
+        if (!(world.getEntitiesOfClass(LivingEntity.class, AABB.ofSize(new Vec3(x, y, z), 8, 8, 8), e -> true).isEmpty())){
+            target = (Entity) world.getEntitiesOfClass(LivingEntity.class, AABB.ofSize(new Vec3(x, y, z), 4, 4, 4), e -> true).stream().sorted(new Object() {
+                Comparator<Entity> compareDistOf(double _x, double _y, double _z) {
+                    return Comparator.comparingDouble(_entcnd -> _entcnd.distanceToSqr(_x, _y, _z));
+                }
+            }.compareDistOf(x, y, z)).findFirst().orElse(null);
+
+            if(target == null){
+                bbounce(Vec, x, y, z, d, pResult);
+            }else{
+                double realtargety = (target.getY() + 0.5);
+                Vec3 realtarget = new Vec3(target.blockPosition().getX(), realtargety, target.blockPosition().getZ());
+                this.setDeltaMovement(this.position().vectorTo(realtarget).scale(1));
+            }
+
+        }else {
+            bbounce(Vec, x, y, z, d, pResult);
+        }
+        this.hitcount -= 1;
+    }
+
+    private void bbounce(Vec3 Vec, double x, double y, double z, Direction d, BlockHitResult pResult) {
         double vx = Vec.x;
         double vy = Vec.y;
         double vz = Vec.z;
@@ -51,8 +80,8 @@ public class RicochetArrowEntity extends AbstractArrow {
         Vec3 Bounce = new Vec3(vx, vy, vz);
         this.setPos(pResult.getLocation());
         this.setDeltaMovement(Bounce);
-        this.hitcount -= 1;
     }
+
 
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
