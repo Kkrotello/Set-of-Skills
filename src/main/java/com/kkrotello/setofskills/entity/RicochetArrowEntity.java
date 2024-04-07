@@ -52,7 +52,7 @@ public class RicochetArrowEntity extends AbstractArrow {
                 bbounce(Vec, x, y, z, d, pResult);
             }else{
                 double realtargety = (target.getY() + 0.5);
-                Vec3 realtarget = new Vec3(target.blockPosition().getX(), realtargety, target.blockPosition().getZ());
+                Vec3 realtarget = new Vec3(target.getX(), realtargety, target.getZ());
                 this.setDeltaMovement(this.position().vectorTo(realtarget).scale(1));
             }
 

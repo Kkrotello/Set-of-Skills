@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -31,11 +32,19 @@ public class ModEvents {
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         if(event.isWasDeath()) {
-            event.getOriginal().getCapability(SkillListProvider.SKILL_LIST).ifPresent(oldStore -> {
-                event.getOriginal().getCapability(SkillListProvider.SKILL_LIST).ifPresent(newStore -> {
-                    newStore.copyFrom(oldStore);
-                });
-            });
+            Player og = event.getOriginal();
+            Player now = event.getEntity();
+            og.reviveCaps();
+            SkillList nowskill = SkillListProvider.getCap(now);
+            SkillList ogskill = SkillListProvider.getCap(og);
+            nowskill.copyFrom(ogskill);
+            og.invalidateCaps();
+
+//            event.getOriginal().getCapability(SkillListProvider.SKILL_LIST).ifPresent(oldStore -> {
+//                event.getOriginal().getCapability(SkillListProvider.SKILL_LIST).ifPresent(newStore -> {
+//                    newStore.copyFrom(oldStore);
+//                });
+//            });
         }
     }
 

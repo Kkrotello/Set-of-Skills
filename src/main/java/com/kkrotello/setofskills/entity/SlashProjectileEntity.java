@@ -84,13 +84,13 @@ public class SlashProjectileEntity extends AbstractArrow {
             this.level().broadcastEntityEvent(this, ((byte) 3));
             Entity target = pResult.getEntity();
             Entity shooter = this.getOwner();
-            Vec3 look = this.getLookAngle();
+            Vec3 knock = this.getDeltaMovement();
             if(target != shooter){
                 target.hurt(this.damageSources().generic(), 10);
-                target.addDeltaMovement(new Vec3(look.x,1, look.z));
+                target.addDeltaMovement(new Vec3(knock.x,0.5, knock.z));
             }
         }
-        super.onHitEntity(pResult);
+        this.discard();
     }
 
     @Override

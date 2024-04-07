@@ -1,6 +1,8 @@
 package com.kkrotello.setofskills;
 
 //import com.kkrotello.setofskills.Item.ModItems;
+import com.kkrotello.setofskills.client.ModMenuTypes;
+import com.kkrotello.setofskills.client.SkillCollectionScreen;
 import com.kkrotello.setofskills.entity.ModEntities;
 import com.kkrotello.setofskills.entity.supplements.ModEffects;
 import com.kkrotello.setofskills.entity.client.RicochetArrowRenderer;
@@ -8,6 +10,7 @@ import com.kkrotello.setofskills.entity.client.SlashProjectileRenderer;
 import com.kkrotello.setofskills.item.ModItems;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -77,6 +80,7 @@ public class SetOfSkills
         ModItems.register(modEventBus);
         ModEntities.register(modEventBus);
         ModEffects.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
 //        BLOCKS.register(modEventBus);
@@ -152,6 +156,8 @@ public class SetOfSkills
             // Some client setup code
             EntityRenderers.register(ModEntities.SLASH_PROJECTILE.get(), SlashProjectileRenderer::new);
             EntityRenderers.register(ModEntities.RICHOCHET_ARROW.get(), RicochetArrowRenderer::new);
+            MenuScreens.register(ModMenuTypes.SKILL_COllECTION.get(), SkillCollectionScreen::new);
+
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
