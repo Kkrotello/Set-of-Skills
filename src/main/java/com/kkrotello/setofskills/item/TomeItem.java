@@ -40,11 +40,17 @@ public class TomeItem extends Item {
                 return ChestMenu.threeRows(p_53124_, p_53125_, playerskills);
             }, Component.literal("Tome of Skills")));
         } else{
+            pPlayer.openMenu(new SimpleMenuProvider((p_53124_, p_53125_, p_53126_) -> {
+            return new SkillCollectionMenu(p_53124_, p_53125_, playerskills);
+            }, Component.literal("New Tome")));
+
             if (!pLevel.isClientSide()) {
 
 //                NetworkHooks.openScreen((ServerPlayer) pPlayer,(new SimpleMenuProvider((p_53124_, p_53125_, p_53126_) -> {
 //                    return new SkillCollectionMenu(p_53124_, p_53125_, playerskills);
 //                }, Component.literal("Tome of Skills"))));
+
+
                 NetworkHooks.openScreen((ServerPlayer) pPlayer, new MenuProvider() {
                 @Override
                 public Component getDisplayName() {

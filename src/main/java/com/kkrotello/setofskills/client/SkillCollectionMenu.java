@@ -82,11 +82,11 @@ public class SkillCollectionMenu extends AbstractContainerMenu implements Suppli
         addPlayerHotbar(inv);
 
         inv.player.getCapability(SkillListProvider.SKILL_LIST).ifPresent(skillList -> {
-            IItemHandler items = (IItemHandler) skillList;
-            this.addSlot(new SlotItemHandler(items, 0, 114, 13) {
+            Container skillitems = skillList.getSkills();
+            this.addSlot(new Slot(skillitems, 0, 114, 13) {
                 private final int slot = 0;
             });
-            this.addSlot(new SlotItemHandler(items, 1, 95, 39) {
+            this.addSlot(new Slot(skillitems, 1, 95, 39) {
                 private final int slot = 1;
 
                 @Override
@@ -94,7 +94,7 @@ public class SkillCollectionMenu extends AbstractContainerMenu implements Suppli
                     return false;
                 }
             });
-            this.addSlot(new SlotItemHandler(items, 2, 132, 39) {
+            this.addSlot(new Slot(skillitems, 2, 132, 39) {
                 private final int slot = 2;
 
                 @Override

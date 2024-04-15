@@ -13,6 +13,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> TOME = ITEMS.register("tome", () -> new TomeItem(new Item.Properties()));
 
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

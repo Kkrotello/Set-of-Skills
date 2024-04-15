@@ -51,6 +51,7 @@ public class ModEvents {
     @SubscribeEvent
     public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(SkillList.class);
+
     }
 
     @SubscribeEvent
