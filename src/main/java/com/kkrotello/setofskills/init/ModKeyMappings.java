@@ -1,6 +1,8 @@
 package com.kkrotello.setofskills.init;
 import com.kkrotello.setofskills.SetOfSkills;
 import com.kkrotello.setofskills.network.CastKeyMessage;
+import com.kkrotello.setofskills.network.ModMessages;
+import com.kkrotello.setofskills.network.SkillCastC2S;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraftforge.fml.common.Mod;
@@ -27,8 +29,9 @@ public class ModKeyMappings {
                 CAST_KEY_LASTPRESS = System.currentTimeMillis();
             } else if (isDownOld != isDown && !isDown) {
                 int dt = (int) (System.currentTimeMillis() - CAST_KEY_LASTPRESS);
-                SetOfSkills.PACKET_HANDLER.sendToServer(new CastKeyMessage(1, dt));
-                CastKeyMessage.pressAction(Minecraft.getInstance().player, 1, dt);
+//                SetOfSkills.PACKET_HANDLER.sendToServer(new CastKeyMessage(1, dt));
+                SkillCastC2S.pressAction(Minecraft.getInstance().player, 1, dt);
+                ModMessages.sendToServer(new SkillCastC2S(1, dt));
             }
             isDownOld = isDown;
         }

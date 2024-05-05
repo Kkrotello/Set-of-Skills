@@ -2,12 +2,15 @@ package com.kkrotello.setofskills;
 
 //import com.kkrotello.setofskills.Item.ModItems;
 import com.kkrotello.setofskills.client.ModMenuTypes;
+import com.kkrotello.setofskills.client.SkillBetaScreen;
 import com.kkrotello.setofskills.client.SkillCollectionScreen;
+import com.kkrotello.setofskills.client.TestScreen;
 import com.kkrotello.setofskills.entity.ModEntities;
 import com.kkrotello.setofskills.entity.supplements.ModEffects;
 import com.kkrotello.setofskills.entity.client.RicochetArrowRenderer;
 import com.kkrotello.setofskills.entity.client.SlashProjectileRenderer;
 import com.kkrotello.setofskills.item.ModItems;
+import com.kkrotello.setofskills.network.ModMessages;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -34,6 +37,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
+import java.awt.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -122,6 +126,9 @@ public class SetOfSkills
         LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
 
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        event.enqueueWork(()->{
+            ModMessages.register();
+        });
     }
 
     // Add the example block item to the building blocks tab
@@ -157,6 +164,9 @@ public class SetOfSkills
             EntityRenderers.register(ModEntities.SLASH_PROJECTILE.get(), SlashProjectileRenderer::new);
             EntityRenderers.register(ModEntities.RICHOCHET_ARROW.get(), RicochetArrowRenderer::new);
             MenuScreens.register(ModMenuTypes.SKILL_COllECTION.get(), SkillCollectionScreen::new);
+            MenuScreens.register(ModMenuTypes.TEST.get(), TestScreen::new);
+            MenuScreens.register(ModMenuTypes.SBETA.get(), SkillBetaScreen::new);
+
 
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());

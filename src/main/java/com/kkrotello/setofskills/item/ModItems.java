@@ -12,7 +12,7 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, SetOfSkills.MODID);
 
     public static final RegistryObject<Item> TOME = ITEMS.register("tome", () -> new TomeItem(new Item.Properties()));
-
+    public static final RegistryObject<Item> NEWTOME = ITEMS.register("newtome", () -> new SColllectItem(new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

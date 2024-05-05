@@ -1,0 +1,58 @@
+{
+  "name": "testanim",
+  "author": "Kkrotello",
+  "descriction": "testing",
+  "emote": {
+    "beginTick": 0,
+    "endTick": 70,
+    "stopTick": 70,
+    "isLoop": false,
+    "returnTick": 0,
+    "nsfw": false,
+    "degrees": false,
+    "moves": [
+      {
+        "tick": 10,
+        "easing": "LINEAR",
+        "rightArm": {
+          "roll": 1
+        }
+      },
+      {
+        "tick": 20,
+        "easing": "LINEAR",
+        "rightArm": {
+          "roll": -1
+        }
+      },
+      {
+        "tick": 30,
+        "easing": "LINEAR",
+        "rightArm": {
+          "yaw": 1
+        }
+      },
+      {
+        "tick": 40,
+        "easing": "LINEAR",
+        "rightArm": {
+          "yaw": -1
+        }
+      },
+      {
+        "tick": 50,
+        "easing": "LINEAR",
+        "rightArm": {
+          "pitch": 1
+        }
+      },
+      {
+        "tick": 60,
+        "easing": "LINEAR",
+        "rightArm": {
+          "pitch": -1
+        }
+      }
+    ]
+  }
+}

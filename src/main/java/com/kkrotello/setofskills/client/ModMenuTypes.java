@@ -16,7 +16,11 @@ public class ModMenuTypes {
 
     public static final RegistryObject<MenuType<SkillCollectionMenu>> SKILL_COllECTION
             = MENUS.register("skill_collection", () -> IForgeMenuType.create(SkillCollectionMenu::new));
+    public static final RegistryObject<MenuType<TestMenu>> TEST
+            = MENUS.register("test", () -> IForgeMenuType.create(TestMenu::new));
 
+    public static final RegistryObject<MenuType<SkillBeta>> SBETA
+            = MENUS.register("sbeta", () -> IForgeMenuType.create(SkillBeta::new));
 
 
     private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
