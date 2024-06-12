@@ -22,33 +22,46 @@ import java.util.HashMap;
 
 public class GrabNThrow {
 
-    public static HashMap<Player, LivingEntity> grabmap = new HashMap<Player, LivingEntity>();
+//    public static HashMap<Player, LivingEntity> grabmap = new HashMap<Player, LivingEntity>();
+//
+//    public static void execute(Level world, Player user){
+//        LivingEntity grabbed = RayTrace.Raytracetarget(world, user, 3);
+//        if(grabbed != null){
+//            grabmap.put(user, grabbed);
+//            user.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200));
+//        } else{
+//            user.displayClientMessage(Component.literal("no target"), true);
+//        }
+//    }
+//
+//    public static void tick(Player player){
+//
+//        if (player.getEffect(MobEffects.MOVEMENT_SLOWDOWN) != null) {
+//            if(grabmap.containsKey(player)){
+//                LivingEntity grabbed = grabmap.get(player);
+//                grabbed.resetFallDistance();
+//                grabbed.teleportTo(player.getX(), player.getY() + 1, player.getZ());
+//            }
+//        }
+//        else if (grabmap.containsKey(player)) {
+//            LivingEntity grabbed = grabmap.get(player);
+//            if(player.onGround()){
+//                grabbed.setDeltaMovement(player.getLookAngle().normalize());
+//            }
+//            grabmap.remove(player);
+//        }
+//    }
 
-    public static void execute(Level world, Player user){
-        LivingEntity grabbed = RayTrace.Raytracetarget(world, user, 3);
-        if(grabbed != null){
-            grabmap.put(user, grabbed);
-            user.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200));
-        } else{
-            user.displayClientMessage(Component.literal("no target"), true);
+    public static void execute(Level world, Player user) {
+        if (user == null)
+            return;
+        if (user.isVehicle()) {
+            Entity passenger = user.getFirstPassenger();
+            passenger.stopRiding();
+        } else {
+            LivingEntity grabbed = RayTrace.Raytracetarget(world, user, 3);
+            grabbed.startRiding(user);
         }
     }
 
-    public static void tick(Player player){
-
-        if (player.getEffect(MobEffects.MOVEMENT_SLOWDOWN) != null) {
-            if(grabmap.containsKey(player)){
-                LivingEntity grabbed = grabmap.get(player);
-                grabbed.resetFallDistance();
-                grabbed.teleportTo(player.getX(), player.getY() + 1, player.getZ());
-            }
-        }
-        else if (grabmap.containsKey(player)) {
-            LivingEntity grabbed = grabmap.get(player);
-            if(player.onGround()){
-                grabbed.setDeltaMovement(player.getLookAngle().normalize());
-            }
-            grabmap.remove(player);
-        }
-    }
 }

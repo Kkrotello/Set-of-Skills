@@ -1,6 +1,12 @@
 package com.kkrotello.setofskills.skill;
 
+import com.kkrotello.setofskills.capabilities.PlayerStatProvider;
 import com.kkrotello.setofskills.entity.SlashProjectileEntity;
+import com.kkrotello.setofskills.network.ModMessages;
+import com.kkrotello.setofskills.network.PlayerStatSyncS2C;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -11,6 +17,13 @@ import net.minecraft.world.level.Level;
 public class ArcSlash {
     public static void execute(Level world, Player user, double x, double y, double z){
         {
+            user.getCapability(PlayerStatProvider.PlAYER_STATS).ifPresent(playerStats -> {
+                playerStats.PlusStrength(1);
+                if (user instanceof ServerPlayer sPLayer) {
+                    ModMessages.sendToPlayer(new PlayerStatSyncS2C(playerStats.strength), sPLayer);
+                }
+            });
+
             Entity shootFrom = user;
             if (shootFrom == null){
                 return;

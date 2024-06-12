@@ -14,12 +14,10 @@ public class SkillCasterProcedure {
         if (user == null)
             return;
         if (user.isShiftKeyDown()) {
-            if (!user.level().isClientSide()){
-                user.displayClientMessage(Component.literal("jump"), true);
-            }
-            AirJump.execute(user, world);
-        } else if (!user.isShiftKeyDown()) {
 
+            AirJump airJump = new AirJump();
+            airJump.execute(user, world);
+        } else if (!user.isShiftKeyDown()) {
                 InteractionHand pHand = user.swingingArm;
 //                Item myitem = user.getItemInHand(pHand).getItem();
 //                user.displayClientMessage(Component.literal("You have: " + I18n.get(myitem.getDescriptionId())), true);

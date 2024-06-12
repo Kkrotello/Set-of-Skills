@@ -31,6 +31,12 @@ public class ModMessages {
                 .encoder(SkillCastC2S::buffer)
                 .consumerMainThread(SkillCastC2S::handle)
                 .add();
+
+        net.messageBuilder(PlayerStatSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(PlayerStatSyncS2C::new)
+                .encoder(PlayerStatSyncS2C::toBytes)
+                .consumerMainThread(PlayerStatSyncS2C::handle)
+                .add();
     }
 
     public static <MSG> void sendToServer(MSG message) {
